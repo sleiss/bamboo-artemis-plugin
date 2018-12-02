@@ -3,6 +3,10 @@ sudo: false
 
 language: java
 
+branches:
+  except:
+  - /^v[0-9]*/
+
 before_install:
 - wget https://marketplace.atlassian.com/download/plugins/atlassian-plugin-sdk-tgz
 - mkdir opt
