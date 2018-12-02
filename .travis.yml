@@ -1,0 +1,28 @@
+# from https://github.com/Parallels/atlassian-restrict-branch-model/blob/master/.travis.yml
+sudo: false
+
+language: java
+
+before_install:
+- wget https://marketplace.atlassian.com/download/plugins/atlassian-plugin-sdk-tgz
+- mkdir opt
+- tar -xvzf *plugin-sdk* -C opt
+- mv opt/*plugin-sdk* opt/atlassian-plugin-sdk
+- chmod a+x opt/atlassian-plugin-sdk/bin/*
+- chmod a+x opt/atlassian-plugin-sdk/apache-maven-*/bin/*
+- export PATH=opt/atlassian-plugin-sdk/bin:opt/atlassian-plugin-sdk/apache-maven-*/bin:$PATH
+- atlas-version
+install:
+- atlas-mvn install
+script:
+- atlas-mvn package
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: ljpg29wmo0yPs+qXBVj1vHnY4WPXB1hNMDnHMxhXbPRhK5l9kCqJWy4YjJ6BbEb4keU5dMmt+cyB+Njr3IomJMoupVu0Osut/SNz4g0UZFTYYJQjvrurdmGxoh9E7xmc6Pcly+Pw99RSpqK+yD8SDDepTleHDv/8pC0d4Z5NZIJ9JJUeY2in1RXpStj7rJtmSN5XWFpWBGpHElFQqaSDfh62zn3bvb7J9oVA+NtBDXgpY1Km1Q76Evt4PuijOgdWx4rcNpi7UOd6XurkYuo4/igBEUE8HQSEIqgC0jxJg0gxtLbymPvW4sPXmEPhZwIUvoYFjX0DvlIqU8hbr/2CPtcHiKqnqTU92wgFFnf3Xvn2mdoCrgHDOcSA2JWsR70077bPzv+llNHN17mDlGE7vIiv54jNBkJpem8OBgDNIU2lDnhwZQr3ifZJ0ydhdhkYK7Kp1lAZtEZwbqs6cetlwLiuBH6wd3dErBduPQNLnl22qdhQQJFBXPkj+vHBAt9uSB3irWWME0XsR6G9OpzDYoO64vkkHnz1k7VK37ud2pe7yKYuUr+MUbyBnzycbKOhYRufPkMv8RJIbRH6lChRrZOamqbZTa1FFYsemgcJ9NG990tE0zJHw0G3vU+emxPY35UPIMZrSbzQ8mCOlwKfhAtubZRNe+V0ohJFvVx/dhI=
+  file:
+    - target/*.jar
+  file_glob: true
+  on:
+    branch: master
