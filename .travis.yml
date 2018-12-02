@@ -12,6 +12,8 @@ before_install:
 - chmod a+x opt/atlassian-plugin-sdk/apache-maven-*/bin/*
 - export PATH=opt/atlassian-plugin-sdk/bin:opt/atlassian-plugin-sdk/apache-maven-*/bin:$PATH
 - atlas-version
+install:
+- atlas-mvn install
 script:
 - atlas-mvn package
 after_success:
